@@ -1,13 +1,21 @@
-import { useState } from "react";
-import { registerUser } from "../services/authService";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getCurrentUser, registerUser } from "../services/authService";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (getCurrentUser()) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -15,11 +23,17 @@ function Register() {
       return;
     }
 
-    registerUser({
-      username,
-      email,
-      password,
-    });
+    try {
+      await registerUser({
+        username,
+        email,
+        password,
+      });
+      alert("Registration successful. You are now logged in.");
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.message || "Registration failed");
+    }
   };
 
   return (

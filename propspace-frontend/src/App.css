@@ -1,16 +1,42 @@
 nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
   padding: 15px 30px;
   background-color: #2563eb;
   color: white;
 }
 
-nav ul {
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links {
   display: flex;
   list-style: none;
   gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a,
+.nav-brand a {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-brand {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+nav li {
+  cursor: pointer;
+}
+
+nav li:hover {
+  text-decoration: underline;
 }
 
 nav li {

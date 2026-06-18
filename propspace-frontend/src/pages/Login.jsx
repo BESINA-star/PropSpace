@@ -1,18 +1,32 @@
-import { useState } from "react";
-import { loginUser } from "../services/authService";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getCurrentUser, loginUser } from "../services/authService";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
- const handleSubmit = (e) => {
-  e.preventDefault();
+  useEffect(() => {
+    if (getCurrentUser()) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
-  loginUser({
-    email,
-    password,
-  });
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await loginUser({
+        email,
+        password,
+      });
+      alert("Login successful.");
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.message || "Login failed");
+    }
+  };
 
   return (
     <div>
